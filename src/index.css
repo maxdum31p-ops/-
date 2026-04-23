@@ -1,0 +1,25 @@
+@import url('https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&family=Lexend:wght@400;500;600&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Public Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-body: "Lexend", ui-sans-serif, system-ui, sans-serif;
+
+  --color-surface: #f3faff;
+  --color-on-surface: #071e27;
+  --color-on-surface-variant: #444652;
+  --color-primary: #00205f;
+  --color-on-primary: #ffffff;
+  --color-secondary: #785900;
+  --color-secondary-container: #fdc003;
+  --color-on-secondary-container: #6c5000;
+  --color-outline-variant: #c4c6d4;
+  --color-surface-container-low: #e6f6ff;
+  --color-surface-container: #dbf1fe;
+  --color-surface-container-highest: #cfe6f2;
+}
+
+@layer base {
+  body { @apply font-body bg-surface text-on-surface; }
+  h1, h2, h3, h4, h5, h6 { @apply font-sans font-semibold tracking-tight; }
+}

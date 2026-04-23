@@ -42,7 +42,7 @@ import React, { useState, useEffect, FormEvent } from "react";
 const NEWS_DATA = [
   { 
     id: "1", 
-    title: "รางวัลชนะเลิศนวัตกรรมวิชาการ", 
+    title: "รางวัลชนะเลิศนวัตกรรมวิชาการระดับจังหวัด", 
     img: "https://images.unsplash.com/photo-1577896851231-70ef14603e80?auto=format", 
     cat: "วิชาการ",
     date: "20 พ.ค. 2567",
@@ -51,12 +51,54 @@ const NEWS_DATA = [
   },
   { 
     id: "2", 
+    title: "โครงการเข้าค่ายพุทธบุตร ประจำปี 2567", 
+    img: "/input_file_0.png", 
+    cat: "จริยธรรม",
+    date: "5 ก.พ. 2567",
+    views: "1,120",
+    content: "โรงเรียนบ้านเดิดจัดกิจกรรมเข้าค่ายพุทธบุตร ณ วัดในชุมชน เพื่อให้นักเรียนได้เรียนรู้หลักธรรมทางพระพุทธศาสนา ฝึกสมาธิ และพัฒนาคุณธรรมจริยธรรม..."
+  },
+  { 
+    id: "3", 
     title: "บรรยากาศกิจกรรมวันไหว้ครู", 
     img: "https://images.unsplash.com/photo-1491438590914-bc09fcaaf77a?auto=format", 
     cat: "วัฒนธรรม",
     date: "12 มิ.ย. 2567",
     views: "850",
-    content: "ภาพบรรยากาศที่เปี่ยมไปด้วยความซาบซึ้งใจในกิจกรรมวันไหว้ครู ประจำปีการศึกษา 2567 นักเรียนทุกคนได้ร่วมกันทำพานพุ่มสุดสร้างสรรค์เพื่อแสดงความกตัญญูกตเวทีต่อคณะครู..."
+    content: "ภาพบรรยากาศที่เปี่ยมไปด้วยความซาบซึ้งใจในกิจกรรมวันไหว้ครู ประจำปีการศึกษา 2567 นักเรียนทุกคนได้ร่วมกันทำพานพุ่มสุดสร้างสรรค์..."
+  }
+];
+
+const GALLERY_DATA = [
+  { title: "โครงการเข้าค่ายพุทธบุตร (หมู่คณะ)", img: "/input_file_0.png" },
+  { title: "พิธีเปิดและจุดธูปเทียนบูชาพระรัตนตรัย", img: "/input_file_1.png" },
+  { title: "นักเรียนร่วมรับฟังพระธรรมเทศนา", img: "/input_file_2.png" },
+  { title: "นวัตกรรมระดับจังหวัด", img: "https://images.unsplash.com/photo-1577896851231-70ef14603e80?auto=format" },
+  { title: "ทัศนศึกษาพิพิธภัณฑ์", img: "https://images.unsplash.com/photo-1503676260728-1c00da07bb5e?auto=format" },
+  { title: "บรรยากาศโรงเรียน", img: "https://images.unsplash.com/photo-1523050853064-84d436a5ac69?auto=format" }
+];
+
+const STAFF_DATA = [
+  {
+    role: "ผู้บริหาร",
+    members: [
+      { name: "นางสาวกิตติ์สินี อนันต์", position: "ผู้อำนวยการโรงเรียน", img: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&q=80" },
+    ]
+  },
+  {
+    role: "คณะครูสายชั้นประถมศึกษา",
+    members: [
+      { name: "นายสมชาย ใจดี", position: "ครูชำนาญการพิเศษ", img: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format" },
+      { name: "นางสร้อยทอง มีสุข", position: "ครูชำนาญการ", img: "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format" },
+      { name: "นางสาวมลฤดี ดาวเรือง", position: "ครูผู้ช่วย", img: "https://images.unsplash.com/photo-1438761681033-6461ffad8d80?auto=format" }
+    ]
+  },
+  {
+    role: "คณะครูสายชั้นปฐมวัย",
+    members: [
+      { name: "นางจันทรา ฟ้าใส", position: "ครูชำนาญการพิเศษ", img: "https://images.unsplash.com/photo-1544717305-2782549b5136?auto=format" },
+      { name: "นางสาวพิมลวรรณ แก้วดี", position: "ครูผู้ช่วย", img: "https://images.unsplash.com/photo-1567532939604-b6c5b0ad2e01?auto=format" }
+    ]
   }
 ];
 
@@ -71,6 +113,7 @@ function Header() {
     { name: "หน้าแรก", path: "/" },
     { name: "เกี่ยวกับเรา", path: "/about" },
     { name: "วิชาการ", path: "/academic" },
+    { name: "บุคลากร", path: "/staff" },
     { name: "ติดต่อเรา", path: "/contact" },
   ];
 
@@ -115,9 +158,6 @@ function Header() {
             >
               <Search className="w-5 h-5" />
             </button>
-            <button className="hidden sm:block bg-primary text-white px-6 py-2.5 rounded-xl text-sm font-semibold hover:bg-[#001740] transition-colors shadow-sm">
-              เข้าสู่ระบบ
-            </button>
             <button 
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               className="p-2 text-slate-600 md:hidden hover:bg-slate-50 rounded-full transition-colors"
@@ -148,9 +188,6 @@ function Header() {
                     <ChevronRight className="w-5 h-5 text-slate-300" />
                   </Link>
                 ))}
-                <div className="pt-4 mt-4 border-t border-slate-100">
-                  <button className="w-full bg-primary text-white py-4 rounded-2xl font-bold">เข้าสู่ระบบ</button>
-                </div>
               </div>
             </motion.div>
           )}
@@ -182,7 +219,7 @@ function Header() {
                 />
               </div>
               <div className="flex flex-wrap gap-2 mt-4">
-                {["ตารางเรียน", "ปฏิทิน", "ดาวน์โหลดใบสมัคร", "ครู", "ระเบียบการ", "ข่าวกิจกรรม"].map(tag => (
+                {["ปฏิทิน", "ดาวน์โหลดใบสมัคร", "ครู", "ระเบียบการ", "ข่าวกิจกรรม"].map(tag => (
                   <button key={tag} className="px-4 py-2 bg-slate-50 border border-slate-100 rounded-full text-sm text-slate-500 hover:bg-primary/5 hover:text-primary hover:border-primary/20 transition-all">
                     #{tag}
                   </button>
@@ -221,35 +258,24 @@ function Footer() {
             <ul className="space-y-4 text-sm text-slate-400">
               <li><Link to="/" className="hover:text-white transition-colors">หน้าหลัก</Link></li>
               <li><Link to="/about" className="hover:text-white transition-colors">เกี่ยวกับเรา</Link></li>
-              <li><a href="#" className="hover:text-white transition-colors">แผนผังเว็บไซต์</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">บุคลากรไอที</a></li>
             </ul>
           </div>
 
-          <div>
-            <h6 className="text-[11px] font-bold text-slate-500 uppercase tracking-widest mb-8">วิชาการ</h6>
-            <ul className="space-y-4 text-sm text-slate-400">
-              <li><Link to="/academic" className="hover:text-white transition-colors">ตารางเรียน</Link></li>
-              <li><a href="#" className="hover:text-white transition-colors">ระบบรายงานผล</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">คลังสื่อการสอน</a></li>
-              <li><a href="#" className="hover:text-white transition-colors">ห้องสมุดดิจิทัล</a></li>
-            </ul>
-          </div>
 
           <div>
             <h6 className="text-[11px] font-bold text-slate-500 uppercase tracking-widest mb-8">ติดต่อเรา</h6>
-            <ul className="space-y-5 text-sm text-slate-400">
+              <ul className="space-y-5 text-sm text-slate-400">
               <li className="flex items-start gap-3">
                 <MapPin className="w-5 h-5 text-slate-600 mt-0.5" />
-                <span>123 หมู่ 4 ต.เดิด อ.เมือง จ.ยโสธร 35000</span>
+                <span>หมู่ 4 ต.เดิด อ.เมือง จ.ยโสธร 35000</span>
               </li>
               <li className="flex items-center gap-3">
                 <Phone className="w-5 h-5 text-slate-600" />
-                <span>045-123-456</span>
+                <span>045-711-234</span>
               </li>
               <li className="flex items-center gap-3">
                 <Mail className="w-5 h-5 text-slate-600" />
-                <span>contact@bandoet.ac.th</span>
+                <span>admin@bandoet.ac.th</span>
               </li>
             </ul>
           </div>
@@ -312,10 +338,7 @@ function HomePage() {
               โรงเรียนบ้านเดิด มุ่งเน้นการพัฒนาผู้เรียนให้มีความเป็นเลิศทางวิชาการ ควบคู่ไปกับทักษะชีวิตและคุณธรรม เพื่อเติบโตเป็นผู้นำที่มีคุณภาพในอนาคต
             </p>
             <div className="flex flex-wrap gap-4">
-              <button className="bg-secondary-container text-on-secondary-container px-8 py-4 rounded-2xl font-bold hover:shadow-xl transition-all flex items-center gap-2 group">
-                สมัครเรียนออนไลน์ <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-              </button>
-              <Link to="/about" className="bg-white/10 backdrop-blur-md border border-white/30 text-white px-8 py-4 rounded-2xl font-bold hover:bg-white/20 transition-all text-center">
+              <Link to="/about" className="bg-white px-8 py-4 rounded-2xl font-bold text-primary hover:shadow-xl transition-all text-center">
                 ทำความรู้จักโรงเรียน
               </Link>
             </div>
@@ -327,10 +350,10 @@ function HomePage() {
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid grid-cols-2 md:grid-cols-6 gap-8 text-center items-center divide-x-0 md:divide-x divide-slate-100">
             {[
-              { label: "ปีแห่งความสำเร็จ", value: "50+" },
-              { label: "จำนวนนักเรียน", value: "450+" },
-              { label: "ครูผู้เชี่ยวชาญ", value: "32" },
-              { label: "ค่าเฉลี่ยศิษย์เก่า", value: "100%" }
+              { label: "ปีก่อตั้ง (พ.ศ.)", value: "2505" },
+              { label: "จำนวนนักเรียน", value: "240+" },
+              { label: "บุคลากร", value: "18" },
+              { label: "โอกาสเรียนต่อ", value: "100%" }
             ].map((stat, idx) => (
               <div key={idx} className="px-4">
                 <div className="text-primary text-4xl font-bold mb-1 tabular-nums">{stat.value}</div>
@@ -351,12 +374,12 @@ function HomePage() {
           <div className="lg:col-span-4 space-y-8">
             <div className="bg-white p-10 rounded-[2.5rem] border border-slate-200 text-center shadow-lg hover:shadow-2xl transition-all duration-500">
               <div className="w-32 h-32 rounded-full overflow-hidden mx-auto mb-6 ring-8 ring-primary/5">
-                <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&q=80" alt="Principal" className="w-full h-full object-cover" />
+                <img src={STAFF_DATA[0].members[0].img} alt="Principal" className="w-full h-full object-cover" />
               </div>
               <h3 className="font-bold text-primary text-xl mb-4">สารจากผู้อำนวยการ</h3>
               <p className="text-sm text-slate-500 italic mb-8">"เราเชื่อมั่นในศักยภาพของเด็กทุกคน และพร้อมที่จะสนับสนุนส่งเสริมให้เขาได้เติบโตตามความฝันของตัวเอง"</p>
-              <div className="font-bold text-primary">นางสาวกิตติ์สินี อนันต์</div>
-              <div className="text-[11px] text-slate-400 font-bold uppercase tracking-widest mt-1">ผู้อำนวยการโรงเรียนบ้านเดิด</div>
+              <div className="font-bold text-primary">{STAFF_DATA[0].members[0].name}</div>
+              <div className="text-[11px] text-slate-400 font-bold uppercase tracking-widest mt-1">{STAFF_DATA[0].members[0].position}</div>
             </div>
 
             <div className="bg-primary p-8 rounded-[2.5rem] text-white relative overflow-hidden group shadow-xl">
@@ -410,6 +433,34 @@ function HomePage() {
                 </Link>
               ))}
             </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="py-24 bg-white px-6">
+        <div className="max-w-7xl mx-auto space-y-12">
+          <div className="text-center space-y-4">
+            <h2 className="text-3xl md:text-5xl font-bold text-primary tracking-tight font-sans">แกลเลอรี่กิจกรรม</h2>
+            <p className="text-slate-500 font-sans tracking-[0.2em] font-bold text-[10px] uppercase">รวบรวมภาพความประทับใจและกิจกรรมต่างๆ ของโรงเรียน</p>
+          </div>
+          
+          <div className="grid grid-cols-2 lg:grid-cols-3 gap-6 md:gap-10">
+            {GALLERY_DATA.map((item, idx) => (
+              <motion.div 
+                key={idx}
+                whileHover={{ y: -10 }}
+                className="group relative aspect-square rounded-[2rem] overflow-hidden shadow-lg cursor-pointer"
+              >
+                <img 
+                  src={item.img} 
+                  alt={item.title} 
+                  className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                />
+                <div className="absolute inset-x-0 bottom-0 p-8 bg-gradient-to-t from-black/80 via-black/40 to-transparent translate-y-4 group-hover:translate-y-0 transition-transform">
+                  <div className="text-white font-bold text-sm md:text-lg leading-tight">{item.title}</div>
+                </div>
+              </motion.div>
+            ))}
           </div>
         </div>
       </section>
@@ -485,18 +536,18 @@ function AboutPage() {
 
       <section className="py-24 px-6 max-w-7xl mx-auto grid md:grid-cols-2 gap-20 items-center">
         <div className="space-y-8">
-          <h3 className="text-4xl md:text-5xl font-bold text-primary tracking-tight font-sans italic">"เป็นสถานศึกษาชั้นนำ พัฒนาปัญญา มุ่งสู่สากล"</h3>
-          <p className="text-xl text-slate-500 leading-relaxed italic">"เราเชื่อมั่นในศักยภาพที่ไร้ขีดจำกัดของเด็ก และพร้อมจะเปิดโอกาสให้เขาเดินตามสิ่งที่เขารัก"</p>
+          <h3 className="text-4xl md:text-5xl font-bold text-primary tracking-tight font-sans italic">"ต้นแบบสถานศึกษา คุณภาพคู่คุณธรรม"</h3>
+          <p className="text-xl text-slate-500 leading-relaxed italic">"มุ่งมั่นพัฒนาผู้เรียนให้มีทักษะศตวรรษที่ 21 ภายใต้สภาพแวดล้อมที่เอื้อต่อการเรียนรู้"</p>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 pt-6">
              <div className="p-8 bg-surface rounded-[2rem] border border-slate-100 flex flex-col gap-4 group hover:shadow-xl transition-all">
                <div className="p-3 bg-white w-fit rounded-2xl shadow-sm text-primary transition-transform group-hover:scale-110"><CheckCircle2 /></div>
-               <div className="font-bold text-primary font-sans">คำขวัญโรงเรียน</div>
-               <p className="text-sm text-slate-600 leading-relaxed font-sans">"เรียนดี กีฬาเด่น เน้นคุณธรรม"</p>
+               <div className="font-bold text-primary font-sans">วิสัยทัศน์ (Vision)</div>
+               <p className="text-sm text-slate-600 leading-relaxed font-sans">จัดการศึกษาอย่างมีคุณภาพ พัฒนาผู้เรียนตามศักยภาพบนพื้นฐานความเป็นไทย</p>
              </div>
              <div className="p-8 bg-slate-900 text-white rounded-[2.5rem] flex flex-col gap-4 shadow-xl group hover:shadow-primary/20 transition-all">
                <div className="p-3 bg-white/10 w-fit rounded-2xl text-secondary-container transition-transform group-hover:scale-110"><CheckCircle2 /></div>
-               <div className="font-bold font-sans">อัตลักษณ์ผู้เรียน</div>
-               <p className="text-sm text-white/70 leading-relaxed font-sans">"ยิ้มง่าย ไหว้สวย รวยน้ำใจ"</p>
+               <div className="font-bold font-sans">พันธกิจ (Mission)</div>
+               <p className="text-sm text-white/70 leading-relaxed font-sans">ส่งเสริมการเรียนรู้ที่เน้นผู้เรียนเป็นสำคัญ พัฒนาครูสู่มืออาชีพ</p>
              </div>
           </div>
         </div>
@@ -509,25 +560,51 @@ function AboutPage() {
       </section>
 
       <section className="py-24 bg-surface px-6 relative">
-        <div className="max-w-7xl mx-auto flex items-center gap-4 mb-16">
-          <History className="text-primary w-8 h-8" />
-          <h3 className="text-4xl font-bold text-primary tracking-tight font-sans">เส้นทางความสำเร็จ</h3>
-        </div>
-        <div className="max-w-7xl mx-auto space-y-16 border-l-2 border-slate-200 pl-12 relative">
-           {[ 
-             { year: "2505", t: "ก่อตั้งสถานศึกษา", d: "เริ่มต้นจากโรงเรียนเล็กๆ ที่ก่อตั้งขึ้นด้วยความรักและศรัทธาของคนในชุมชนบ้านเดิด" }, 
-             { year: "2530", t: "ขยายอาคารปฐมวัยและการกีฬา", d: "พัฒนาโครงสร้างพื้นฐานเพื่อรองรับจำนวนนักเรียนที่เพิ่มขึ้นและเน้นการพัฒนาทักษะร่างกาย" }, 
-             { year: "ปัจจุบัน", t: "สู่โรงเรียนนวัตกรรมดิจิทัล", d: "ปรับปรุงระบบการสอนสู่ Smart Classroom และรองรับหลักสูตรภาษาอังกฤษที่ทันสมัย" } 
-           ].map((h, i) => (
-             <div key={i} className="relative group">
-                <div className="absolute -left-[57px] top-1.5 w-6 h-6 bg-white border-4 border-primary rounded-full group-hover:scale-125 transition-transform z-10" />
-                <div className="text-3xl font-bold text-primary font-mono tracking-tighter mb-2">{h.year}</div>
-                <div className="space-y-2">
-                  <div className="text-xl font-bold text-slate-800 font-sans">{h.t}</div>
-                  <div className="text-slate-500 max-w-2xl leading-relaxed">{h.d}</div>
-                </div>
-             </div>
-           ))}
+        <div className="max-w-7xl mx-auto grid md:grid-cols-2 gap-16">
+          <div>
+            <div className="flex items-center gap-4 mb-8">
+              <History className="text-primary w-8 h-8" />
+              <h3 className="text-4xl font-bold text-primary tracking-tight font-sans">ข้อมูลพื้นฐาน</h3>
+            </div>
+            <div className="space-y-6 text-slate-600">
+               <div className="p-6 bg-white rounded-2xl shadow-sm border border-slate-100">
+                  <div className="font-bold text-primary mb-2">ที่ตั้งและขนาด</div>
+                  <p>โรงเรียนบ้านเดิด ตั้งอยู่หมู่ที่ 4 ตำบลเดิด อำเภอเมือง จังหวัดยโสธร รหัสไปรษณีย์ 35000 สังกัดสำนักงานเขตพื้นที่การศึกษาประถมศึกษายโสธร เขต 1</p>
+                  <p className="mt-2">มีเนื้อที่ทั้งหมดประมาณ 14 ไร่ 2 งาน 65 ตารางวา</p>
+               </div>
+               <div className="p-6 bg-white rounded-2xl shadow-sm border border-slate-100">
+                  <div className="font-bold text-primary mb-2">อาณาเขตติดต่อ</div>
+                  <ul className="space-y-1 text-sm">
+                    <li><span className="font-semibold">ทิศเหนือ:</span> ติดกับที่สาธารณประโยชน์</li>
+                    <li><span className="font-semibold">ทิศใต้:</span> ติดกับทางหลวงสายโชคชัย-เดชอุดม</li>
+                    <li><span className="font-semibold">ทิศตะวันออก:</span> ติดกับที่ดินชาวบ้าน</li>
+                    <li><span className="font-semibold">ทิศตะวันตก:</span> ติดกับที่ดินชาวบ้านและลำห้วย</li>
+                  </ul>
+               </div>
+            </div>
+          </div>
+          <div>
+            <div className="flex items-center gap-4 mb-8">
+              <History className="text-primary w-8 h-8" />
+              <h3 className="text-4xl font-bold text-primary tracking-tight font-sans">ประวัติโรงเรียน</h3>
+            </div>
+            <div className="space-y-12 border-l-2 border-slate-200 pl-12 relative">
+               {[ 
+                 { year: "2505", t: "วันก่อตั้ง", d: "ก่อตั้งเมื่อวันที่ 25 มิถุนายน 2505 โดยความร่วมมือของชาวบ้านเดิดและทางการ เพื่อให้บุตรหลานมีสถานที่ศึกษาเล่าเรียนที่ใกล้บ้าน" }, 
+                 { year: "2530", t: "การก้าวสู่ยุคขยายโอกาส", d: "มีการปรับปรุงอาคารเรียนและขยายพื้นที่การศึกษาเพื่อรองรับจำนวนนักเรียนที่เพิ่มขึ้นอย่างต่อเนื่อง" }, 
+                 { year: "ปัจจุบัน", t: "สถานศึกษาคุณภาพสูง", d: "มุ่งเน้นการจัดการเรียนการสอนที่ทันสมัย พัฒนาทักษะศตวรรษที่ 21 และปลูกฝังคุณธรรมให้แก่นักเรียน" } 
+               ].map((h, i) => (
+                 <div key={i} className="relative group">
+                    <div className="absolute -left-[57px] top-1.5 w-6 h-6 bg-white border-4 border-primary rounded-full group-hover:scale-125 transition-transform z-10" />
+                    <div className="text-3xl font-bold text-primary font-mono tracking-tighter mb-2">{h.year}</div>
+                    <div className="space-y-2">
+                      <div className="text-xl font-bold text-slate-800 font-sans">{h.t}</div>
+                      <div className="text-slate-500 max-w-2xl leading-relaxed">{h.d}</div>
+                    </div>
+                 </div>
+               ))}
+            </div>
+          </div>
         </div>
       </section>
     </motion.div>
@@ -575,14 +652,14 @@ function AcademicPage() {
 
       <div className="max-w-7xl mx-auto bg-surface p-12 md:p-24 rounded-[5rem] border border-slate-100 text-center space-y-16 shadow-inner">
          <div className="space-y-4">
-            <h3 className="text-4xl font-bold text-primary tracking-tight font-sans uppercase">Creative Learning Spaces</h3>
+            <h3 className="text-4xl font-bold text-primary tracking-tight font-sans uppercase">แหล่งเรียนรู้สร้างสรรค์</h3>
             <p className="text-slate-400 font-sans tracking-[0.4em] font-bold text-[10px] uppercase">แหล่งความรู้ที่จุดประกายจินตนาการ</p>
          </div>
          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-10">
             {[
-              { n: "Smart Library", i: "https://images.unsplash.com/photo-1544640808-32ca72ac7f67?auto=format" },
-              { n: "Modern Science Lab", i: "https://images.unsplash.com/photo-1541339907198-e08759dfc3ef?auto=format" },
-              { n: "Outdoor Learning Area", i: "https://images.unsplash.com/photo-1577896851231-70ef14603e80?auto=format" }
+              { n: "ห้องสมุดอัจฉริยะ", i: "https://images.unsplash.com/photo-1544640808-32ca72ac7f67?auto=format" },
+              { n: "ห้องปฏิบัติการวิทยาศาสตร์", i: "https://images.unsplash.com/photo-1541339907198-e08759dfc3ef?auto=format" },
+              { n: "พื้นที่เรียนรู้กลางแจ้ง", i: "https://images.unsplash.com/photo-1577896851231-70ef14603e80?auto=format" }
             ].map((space, i) => (
               <div key={i} className="group cursor-pointer">
                  <div className="aspect-[4/3] rounded-[3rem] overflow-hidden mb-6 relative shadow-xl">
@@ -594,6 +671,40 @@ function AcademicPage() {
             ))}
          </div>
       </div>
+    </motion.div>
+  );
+}
+
+function StaffPage() {
+  return (
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="py-24 px-6 max-w-7xl mx-auto space-y-24">
+      <div className="text-center space-y-4">
+        <h2 className="text-4xl md:text-6xl font-bold text-primary tracking-tight font-sans">คณะผู้บริหารและบุคลากร</h2>
+        <p className="text-slate-500 max-w-2xl mx-auto">ทีมงานคุณภาพที่พร้อมทุ่มเทแรงกายแรงใจเพื่อการพัฒนาศิษย์</p>
+      </div>
+
+      {STAFF_DATA.map((group, gIdx) => (
+        <div key={gIdx} className="space-y-12">
+          <div className="flex items-center gap-4">
+            <div className="h-px bg-slate-200 flex-grow" />
+            <h3 className="text-2xl font-bold text-primary px-4 bg-white shrink-0">{group.role}</h3>
+            <div className="h-px bg-slate-200 flex-grow" />
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+            {group.members.map((member, mIdx) => (
+              <div key={mIdx} className="bg-white p-8 rounded-[2.5rem] border border-slate-100 shadow-lg hover:shadow-2xl transition-all group">
+                <div className="w-32 h-32 rounded-3xl overflow-hidden mx-auto mb-6 shadow-md group-hover:scale-105 transition-transform duration-500">
+                  <img src={member.img} alt={member.name} className="w-full h-full object-cover" />
+                </div>
+                <div className="text-center">
+                  <div className="font-bold text-lg text-slate-900 group-hover:text-primary transition-colors">{member.name}</div>
+                  <div className="text-sm text-slate-400 mt-1">{member.position}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      ))}
     </motion.div>
   );
 }
@@ -622,9 +733,9 @@ function ContactPage() {
              
              <div className="space-y-10">
                 {[
-                  { icon: MapPin, title: "Address", info: "เลขที่ 123 หมู่ 4 ต.เดิด อ.เมือง จ.ยโสธร 35000" },
-                  { icon: Phone, title: "Call Us", info: "045-123-456 (ฝ่ายทะเบียน/ธุรการ)" },
-                  { icon: Mail, title: "Email", info: "contact@bandoet.ac.th" }
+                  { icon: MapPin, title: "ที่อยู่", info: "หมู่ 4 บ้านเดิด ต.เดิด อ.เมือง จ.ยโสธร 35000" },
+                  { icon: Phone, title: "โทรศัพท์", info: "045-711-234 (ฝ่ายธุรการ)" },
+                  { icon: Mail, title: "อีเมล", info: "admin@bandoet.ac.th" }
                 ].map((item, idx) => (
                   <div key={idx} className="flex gap-8 items-start group">
                      <div className="w-16 h-16 bg-primary/5 rounded-3xl flex items-center justify-center text-primary flex-shrink-0 group-hover:bg-primary group-hover:text-white transition-all shadow-md group-hover:scale-110">
@@ -712,6 +823,7 @@ export default function App() {
           <Routes>
             <Route path="/" element={<HomePage />} />
             <Route path="/about" element={<AboutPage />} />
+            <Route path="/staff" element={<StaffPage />} />
             <Route path="/academic" element={<AcademicPage />} />
             <Route path="/contact" element={<ContactPage />} />
             <Route path="/news/:id" element={<NewsDetailPage />} />
